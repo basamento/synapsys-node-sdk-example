@@ -1,0 +1,20 @@
+{
+  "name": "synapsys-node-sdk-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Example applications for @synapsys-io/sdk: one process of every kind, in CommonJS, ESM and Express.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node app.cjs",
+    "start:esm": "node app.mjs",
+    "start:express": "node express-app.cjs",
+    "start:bulk": "node bulk.cjs"
+  },
+  "dependencies": {
+    "@synapsys-io/sdk": "^0.1.0",
+    "express": "^4.21.2"
+  }
+}
