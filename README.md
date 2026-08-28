@@ -20,15 +20,22 @@ happen from both sides.
 npm install
 ```
 
+Two settings are required. Put them in a `.env` file:
+
 ```bash
 cp .env.example .env
 ```
 
-Set at least these two, in `.env` or your shell:
-
 ```bash
 SYNAPSYS_CORE_URL=http://localhost:8080
 SYNAPSYS_CORE_TOKEN=syn_your_token_here
+```
+
+Or export them in your shell instead — **`.env` is optional**, and anything already
+set in the environment wins over the file, so a one-off override needs no edit:
+
+```bash
+SYNAPSYS_WORKER_NAME=scratch npm start
 ```
 
 Then:
@@ -36,6 +43,10 @@ Then:
 ```bash
 npm start
 ```
+
+<sub>The `.env` file is read by `src/load-env.js`, twenty lines and no dependency.
+Node 20.6 added `--env-file` natively, but it is fatal when the file is missing, and
+neither it nor `--env-file-if-exists` exists on the Node 18 these examples support.</sub>
 
 Open <http://localhost:3000>. The page refreshes every second and shows what the SDK
 is reporting to Core for each process: state, `ackToken` and `runId`. Machine-readable
@@ -192,6 +203,7 @@ app.cjs               main example — all nine processes, commented
 app.mjs               ESM variant
 express-app.cjs       Express variant, Synapsys confined to four marked blocks
 bulk.cjs              scale fixture
+src/load-env.js       optional .env support, no dependency
 src/logger.js         timestamped output — this is what Core captures
 src/status-server.js  the live status page, and the /slow endpoint
 src/jobs/             the actual work. No Synapsys imports anywhere in here.

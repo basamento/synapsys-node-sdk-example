@@ -11,6 +11,10 @@
  * And drive it from the Core console.
  */
 
+// Loads .env if present, before anything reads process.env. Optional: settings
+// can come from the shell instead.
+require('./src/load-env').loadEnv();
+
 const { Synapsys } = require('@synapsys-io/sdk');
 
 const { app } = require('./src/logger');

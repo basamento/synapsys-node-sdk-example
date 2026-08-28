@@ -10,6 +10,10 @@
  * A representative subset; see app.cjs for one process of every kind.
  */
 
+// ESM imports are hoisted and evaluated before any statement in this file, so
+// the .env load has to be its own import, placed first, rather than a call.
+import './src/load-env-first.mjs';
+
 import { Synapsys } from '@synapsys-io/sdk';
 import { createRequire } from 'module';
 

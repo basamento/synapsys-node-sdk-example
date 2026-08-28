@@ -20,6 +20,10 @@
  * to look at, not the number of connections.
  */
 
+// Loads .env if present, before anything reads process.env. Optional: settings
+// can come from the shell instead.
+require('./src/load-env').loadEnv();
+
 const { Synapsys } = require('@synapsys-io/sdk');
 const { app } = require('./src/logger');
 const { createStatusServer, listen } = require('./src/status-server');

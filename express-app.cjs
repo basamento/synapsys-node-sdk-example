@@ -12,6 +12,10 @@
  * Run with:  npm run start:express
  */
 
+// Loads .env if present, before anything reads process.env. Optional: settings
+// can come from the shell instead.
+require('./src/load-env').loadEnv();
+
 const express = require('express');
 
 // ---- Synapsys: 1 of 4 — the import ---------------------------------------
