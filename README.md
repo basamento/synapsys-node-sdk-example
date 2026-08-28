@@ -89,7 +89,7 @@ deliberate, and it is the adoption argument in miniature.
 | `monthly-report` | Finishes on its own after ~5s and returns itself to `idle`. No stop involved. |
 | `bulk-import` | 40 items, cancellable between them. Stop it mid-run: it goes to `idle`, not `failed`. |
 | `slow-migration` | 20 steps of 3s. Long enough to always catch mid-run. |
-| `flaky-importer` | Throws on purpose. Ends `failed`, with the stack trace visible in Core. Every third start succeeds. |
+| `flaky-importer` | **Throws on purpose.** Ends `failed`, with the stack trace visible in Core. Every third start succeeds. The `[Synapsys] ERROR` it produces is the example working, not a fault. |
 | `checksum-cruncher` | 30s of real CPU work on a `worker_thread`. Heartbeats keep flowing throughout. |
 
 ## Things worth trying
