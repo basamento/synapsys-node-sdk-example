@@ -14,7 +14,7 @@
     "start:bulk": "node bulk.cjs"
   },
   "dependencies": {
-    "@synapsys-io/sdk": "^0.1.2",
+    "@synapsys-io/sdk": "^0.2.0",
     "express": "^4.21.2"
   }
 }

@@ -180,6 +180,40 @@ The SDK becomes a complete no-op: no timer, no network call, and `process.stdout
 is left untouched. It does not even require `SYNAPSYS_CORE_URL`. This is what makes
 the dependency invisible to a test suite.
 
+## Shutdown
+
+Every entry point wires `SIGINT` and `SIGTERM` to `await synapsys.stop()` — the SDK
+installs no signal handlers of its own, because that would change how your application
+behaves. `stop()` runs a bounded cooperative shutdown:
+
+1. the heartbeat loop stops;
+2. every running process is asked to stop, and its `AbortSignal` is aborted;
+3. the SDK waits up to `shutdownTimeout` (`SYNAPSYS_SHUTDOWN_TIMEOUT`, 10s by default)
+   for them to become terminal;
+4. one best-effort final heartbeat reports the final states and any queued log lines,
+   and the commands in its response are ignored;
+5. `process.stdout.write` and `process.stderr.write` are restored.
+
+Start `slow-migration` and press Ctrl-C mid-run: it observes the stop within
+milliseconds and the final beat reports it as `idle`. Start `event-loop-hog`
+(`EXAMPLE_ENABLE_HOG=true`) and do the same: it blocks the loop, cannot be
+interrupted, and the SDK says so rather than pretending otherwise —
+
+```
+[Synapsys] WARN Process 'event-loop-hog' did not stop before the shutdown timeout |
+it is still running and will not be replaced by a new execution
+```
+
+Nothing is killed. Node cannot pull a running function out from under itself, so the
+process is reported, kept observed, and never overlapped by a replacement run.
+
+## Start while stopping
+
+Stop a long-running process from the Core console and immediately press Start again.
+The SDK **defers** the new start rather than acknowledging it: the old run's `runId`
+stays in place, the token stays unacknowledged, and Core redelivers the command until
+the old run is terminal — at which point the new run actually happens.
+
 ## Settings
 
 Every SDK setting can be passed in the options object or set in the environment; the
