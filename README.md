@@ -246,4 +246,4 @@ src/workers/          worker_thread target for the CPU-bound example
 
 ## License
 
-Apache License 2.0.
+Apache License 2.0. See [LICENSE](LICENSE).
